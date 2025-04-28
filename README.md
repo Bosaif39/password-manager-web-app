@@ -1,2 +1,3 @@
-# password-manager-web-app
-password manager web app
+•	Frontend: HTML & CSS, maybe JS too 
+•	Backend: Python flask
+•	Database: sqlite3
