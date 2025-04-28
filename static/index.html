@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="styles/index.css">
+    <title>Password Manager</title>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Form for adding new records -->
+        <form id="passwordForm">
+            <p>Website</p>
+            <input id="website" class="password-manager" type="text" placeholder="Enter Website" required>
+
+            <p>Email/Username</p>
+            <input id="email" class="password-manager" type="text" placeholder="Enter Email/Username" required>
+
+            <p>Password</p>
+            <input id="password" class="password-manager" type="password" placeholder="Enter Password" required>
+            <div id="passwordError" class="error"></div>
+
+            <!-- Button to generate a password -->
+            <button id="generateBtn" class="password-managerbtn1" type="button">Generate Password</button>
+
+            <!-- Button to add the record -->
+            <input id="addBtn" class="password-managerbtn2" type="submit" value="Add">
+        </form>
+        <br/><br/><br/>
+
+        <!-- Table to display the records -->
+        <table id="passwordTable">
+            <thead>
+                <tr>
+                    <th>Website</th>
+                    <th>Email/Username</th>
+                    <th>Password</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Dynamically added rows will appear here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Dummy data to populate the table initially
+        const dummyData = [
+            { website: 'example.com', email: 'user1@example.com', password: 'password123' },
+            { website: 'test.com', email: 'user2@test.com', password: 'password456' },
+        ];
+
+        const form = document.getElementById('passwordForm');
+        const tableBody = document.getElementById('passwordTable').querySelector('tbody');
+
+        // Function to render the table with data
+        function renderTable() {
+            tableBody.innerHTML = ''; // Clear existing table rows
+
+            dummyData.forEach((data, index) => {
+                const row = document.createElement('tr');
+                
+                const websiteCell = document.createElement('td');
+                websiteCell.textContent = data.website;
+                
+                const emailCell = document.createElement('td');
+                emailCell.textContent = data.email;
+                
+                const passwordCell = document.createElement('td');
+                passwordCell.textContent = data.password;
+
+                // Create edit and delete buttons
+                const actionsCell = document.createElement('td');
+                const editButton = document.createElement('button');
+                editButton.textContent = 'Edit';
+                editButton.classList.add('password-managerbtn2');
+                editButton.addEventListener('click', () => editRecord(index));
+
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Delete';
+                deleteButton.classList.add('password-managerbtn1');
+                deleteButton.addEventListener('click', () => deleteRecord(index));
+
+                actionsCell.appendChild(editButton);
+                actionsCell.appendChild(deleteButton);
+                
+                row.appendChild(websiteCell);
+                row.appendChild(emailCell);
+                row.appendChild(passwordCell);
+                row.appendChild(actionsCell);
+                
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Function to add a new record
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const website = document.getElementById('website').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // Add new record to dummyData
+            dummyData.push({ website, email, password });
+
+            // Clear form fields
+            document.getElementById('website').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('password').value = '';
+            
+            renderTable(); // Re-render table
+        });
+
+        // Function to edit an existing record
+        function editRecord(index) {
+            const data = dummyData[index];
+
+            // Pre-fill the form with the record's data
+            document.getElementById('website').value = data.website;
+            document.getElementById('email').value = data.email;
+            document.getElementById('password').value = data.password;
+            
+            // Change the "Add" button to "Update"
+            document.getElementById('addBtn').value = 'Update';
+
+            // Update the form's submit event for updating
+            form.onsubmit = function(e) {
+                e.preventDefault();
+                dummyData[index] = {
+                    website: document.getElementById('website').value,
+                    email: document.getElementById('email').value,
+                    password: document.getElementById('password').value,
+                };
+                document.getElementById('addBtn').value = 'Add'; // Reset button text
+                renderTable(); // Re-render table
+            };
+        }
+
+        // Function to delete a record
+        function deleteRecord(index) {
+            dummyData.splice(index, 1);
+            renderTable(); // Re-render table after deletion
+        }
+
+        // Function to generate a random password
+        document.getElementById('generateBtn').addEventListener('click', () => {
+            const password = generatePassword();
+            document.getElementById('password').value = password;
+        });
+
+        // Password generation function
+        function generatePassword() {
+            const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()';
+            let password = '';
+            for (let i = 0; i < 12; i++) {
+                const randomIndex = Math.floor(Math.random() * chars.length);
+                password += chars[randomIndex];
+            }
+            return password;
+        }
+
+        // Initial render of the table with dummy data
+        renderTable();
+    </script>
+
+</body>
+</html>
