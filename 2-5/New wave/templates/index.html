@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Password Manager</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+     body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #121212;
+        color: #e0e0e0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+    
+    .container {
+        background-color: #1e1e1e;
+        padding: 50px 60px;
+        border-radius: 12px;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6);
+        max-width: 600px;
+        width: 100%;
+        overflow: hidden;  /* Prevent content overflow */
+    }
+    
+    p {
+        margin: 10px 0 5px;
+        font-weight: 600;
+        color: #ffffff;
+    }
+    
+    .password-manager,
+    .password-managerbtn1,
+    .password-managerbtn2 {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    .password-manager {
+        padding: 10px;
+        margin-bottom: 5px;
+        border: 1px solid #333;
+        border-radius: 5px;
+        background-color: #2b2b2b;
+        color: #f0f0f0;
+        font-size: 14px;
+    }
+    
+    .password-manager::placeholder {
+        color: #888;
+    }
+    
+    .password-managerbtn1,
+    .password-managerbtn2 {
+        padding: 10px;
+        margin-top: 10px;
+        border: none;
+        border-radius: 5px;
+        font-size: 15px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    
+    .password-managerbtn1,
+    .password-managerbtn2 {
+        background-color: #28a745;
+        color: white;
+    }
+    
+    .password-managerbtn1:hover,
+    .password-managerbtn2:hover {
+        background-color: #218838;
+    }
+    
+    .checkbox-container {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+    }
+    
+    .checkbox-container input[type="checkbox"] {
+        margin-right: 10px;
+        accent-color: #28a745;
+    }
+    
+    .checkbox-container label {
+        color: #e0e0e0;
+        font-size: 14px;
+        cursor: pointer;
+    }
+    
+    .error-message {
+        color: #ff4d4d;
+        font-size: 12px;
+        margin-bottom: 8px;
+    }
+    
+    /* Table Styles */
+    table {
+        margin-top: 20px;
+        width: 100%; /* Make the table fill the container */
+        max-width: 100%; /* Ensure it doesn't exceed the container width */
+        border-collapse: collapse;
+        font-size: 14px;
+        background-color: #2b2b2b;
+        border-radius: 5px;
+        box-sizing: border-box; /* Ensures padding doesn't cause overflow */
+    }
+    
+    table, th, td {
+        border: 1px solid #444;
+    }
+    
+    th, td {
+        padding: 8px;
+        text-align: left;
+        color: #ddd;
+        word-wrap: break-word; /* Ensure long content wraps inside cells */
+    }
+    
+    th {
+        background-color: #333;
+        font-weight: bold;
+    }
+    
+    /* Input fields inside table */
+    table input[type="text"] {
+        width: 100%; /* Make inputs fill available space within each cell */
+        padding: 6px;
+        border: 1px solid #333;
+        background-color: #2b2b2b;
+        color: #f0f0f0;
+        font-size: 14px;
+        box-sizing: border-box; /* Include padding and border in total width */
+        border-radius: 3px;
+    }
+    
+    table input[type="text"]:focus {
+        outline: none;
+        border-color: #28a745;
+    }
+    
+    /* Button Styles */
+    button.update-btn,
+    button.delete-btn {
+        padding: 5px 8px;
+        font-size: 13px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        width: auto;
+        transition: background-color 0.3s ease;
+    }
+    
+    button.update-btn {
+        background-color: #4da6ff;
+        color: #fff;
+    }
+    
+    button.update-btn:hover {
+        background-color: #3399ff;
+    }
+    
+    button.delete-btn {
+        background-color: #ff4d4d;
+        color: #fff;
+    }
+    
+    button.delete-btn:hover {
+        background-color: #ff3333;
+    }
+    </style>    
+</head>
+<body>
+
+<div class="container">
+    <form id="passwordForm">
+        <p>Website</p>
+        <input id="website" class="password-manager" type="text" placeholder="Enter Website" required>
+        <div id="websiteError" class="error-message"></div>
+
+        <p>Email/Username</p>
+        <input id="email" class="password-manager" type="text" placeholder="Enter Email/Username" required>
+        <div id="emailError" class="error-message"></div>
+
+        <p>Password</p>
+        <input id="password" class="password-manager" type="password" placeholder="Enter Password" required>
+        <div class="checkbox-container">
+            <input type="checkbox" id="show-password" onclick="togglePasswordVisibility()">
+            <label for="show-password">Show Password</label>
+        </div>
+        <div id="passwordError" class="error-message"></div>
+
+        <button id="generateBtn" class="password-managerbtn1" type="button">Generate Password</button>
+        <input id="addBtn" class="password-managerbtn2" type="submit" value="Add">
+    </form>
+
+    <table id="passwordTable">
+        <thead>
+            <tr>
+                <th>Website</th>
+                <th>Email/Username</th>
+                <th>Password</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Dynamically added rows will appear here -->
+        </tbody>
+    </table>
+
+</div>
+
+<script>
+    // Toggle password visibility
+    function togglePasswordVisibility() {
+        const passwordInput = document.getElementById("password");
+        passwordInput.type = (passwordInput.type === "password") ? "text" : "password";
+    }
+
+    // Generate password
+    $("#generateBtn").click(function () {
+        $.get("/generate_password", function (data) {
+            $("#password").val(data.password);
+        });
+    });
+
+    // Submit form
+    $("#passwordForm").submit(function (event) {
+        event.preventDefault();
+        $(".error-message").text("");
+
+        const website = $("#website").val();
+        const email = $("#email").val();
+        const password = $("#password").val();
+
+        $.post("/save_password", { website, email, password }, function (response) {
+            alert(response.message);
+            $("#passwordForm")[0].reset();
+            fetchPasswords(); // Reload table
+        }).fail(function (xhr) {
+            const errorText = xhr.responseJSON?.error || "An error occurred.";
+            if (errorText.toLowerCase().includes("email")) {
+                $("#emailError").text(errorText);
+            } else if (errorText.toLowerCase().includes("password")) {
+                $("#passwordError").text(errorText);
+            } else {
+                $("#websiteError").text(errorText);
+            }
+        });
+    });
+
+    // Fetch and display passwords in table
+    function fetchPasswords() {
+        $.get("/get_passwords", function (data) {
+            const tbody = $("#passwordTable tbody");
+            tbody.empty();
+
+            data.forEach(item => {
+                const row = `
+                    <tr data-id="${item.id}">
+                        <td><input type="text" class="edit-website" value="${item.website}" /></td>
+                        <td><input type="text" class="edit-email" value="${item.email}" /></td>
+                        <td><input type="text" class="edit-password" value="${item.password}" /></td>
+                        <td>
+                            <button class="update-btn">Edit</button>
+                            <button class="delete-btn">Delete</button>
+                        </td>
+                    </tr>
+                `;
+                tbody.append(row);
+            });
+
+            // Bind Delete button
+            $(".delete-btn").click(function () {
+                const row = $(this).closest("tr");
+                const id = row.data("id");
+
+                $.ajax({
+                    url: `/delete_password/${id}`,
+                    type: "DELETE",
+                    success: function (response) {
+                        alert(response.message);  // Display success message
+                        row.remove();  // Remove the row from the table
+                    },
+                    error: function () {
+                        alert("Failed to delete password.");  // Display failure message
+                    }
+                });
+            });
+
+            // Bind Edit button
+            $(".update-btn").click(function () {
+                const row = $(this).closest("tr");
+                const id = row.data("id");
+                const website = row.find(".edit-website").val();
+                const email = row.find(".edit-email").val();
+                const password = row.find(".edit-password").val();
+
+                $.ajax({
+                    url: `/update_password/${id}`,
+                    type: "PUT",
+                    contentType: "application/json",
+                    data: JSON.stringify({ website, email, password }),
+                    success: function () {
+                        alert("Password updated successfully.");
+                    },
+                    error: function (xhr) {
+                        const errorText = xhr.responseJSON?.error || "Update failed.";
+                        alert(errorText);
+                    }
+                });
+            });
+        });
+    }
+
+    // Load data on page load
+    $(document).ready(function () {
+        fetchPasswords();
+    });
+</script>
+
+</body>
+</html>

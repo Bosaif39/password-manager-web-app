@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dark Theme Form</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #1e1e1e;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .container p {
+            margin: 10px 0 5px;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .password-manager,
+        .password-managerbtn1,
+        .password-managerbtn2 {
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .password-manager {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #333;
+            border-radius: 5px;
+            background-color: #2b2b2b;
+            color: #f0f0f0;
+            font-size: 14px;
+        }
+
+        .password-manager::placeholder {
+            color: #888;
+        }
+
+        .password-managerbtn1,
+        .password-managerbtn2 {
+            padding: 10px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .password-managerbtn1 {
+            background-color: #6c63ff;
+            color: white;
+        }
+
+        .password-managerbtn1:hover {
+            background-color: #574fd6;
+        }
+
+        .password-managerbtn2 {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .password-managerbtn2:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <p>Website</p>
+        <input class="password-manager" type="text" placeholder="Enter Website">
+
+        <p>Email/Username</p>
+        <input class="password-manager" type="text" placeholder="Enter Email/Username">
+
+        <p>Password</p>
+        <input class="password-manager" type="text" placeholder="Enter Password">
+
+        <button class="password-managerbtn1">Generate Password</button>
+        <button class="password-managerbtn2">Add</button>
+    </div>
+</body>
+</html>
