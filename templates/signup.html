@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="styles/index.css">
+    <title>Sign up</title>
+    <style>
+        body {
+           font-family: 'Segoe UI', sans-serif;
+           background-color: #121212;
+           color: #e0e0e0;
+           display: flex;
+           justify-content: center;
+           align-items: center;
+           height: 100vh;
+           margin: 0;
+       }
+       
+       .container {
+           background-color: #1e1e1e;
+           padding: 50px 60px;
+           border-radius: 12px;
+           box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6);
+           max-width: 600px;
+           width: 100%;
+           overflow: hidden;  
+       }
+       
+       p {
+           margin: 10px 0 5px;
+           font-weight: 600;
+           color: #e0e0e0;
+       }
+       
+       .password-manager,
+       .password-managerbtn1,
+       .password-managerbtn2 {
+           display: block;
+           width: 100%;
+           box-sizing: border-box;
+       }
+       
+       .password-manager {
+           padding: 10px;
+           margin-bottom: 5px;
+           border: 1px solid #f0f0f0;
+           border-radius: 5px;
+           background-color: #2b2b2b;
+           color: #e0e0e0;
+           font-size: 14px;
+       }
+       
+       .password-manager::placeholder {
+           color: #888;
+       }
+       
+       .password-managerbtn1,
+       .password-managerbtn2 {
+           padding: 10px;
+           margin-top: 10px;
+           border: none;
+           border-radius: 5px;
+           font-size: 15px;
+           cursor: pointer;
+           transition: background-color 0.4s ease;
+       }
+       
+       .password-managerbtn1,
+       .password-managerbtn2 ,button.update-btn{
+           background-color: #28a745;
+           color: #e0e0e0;
+       }
+       
+       .password-managerbtn1:hover,
+       .password-managerbtn2:hover ,button.update-btn:hover{
+           background-color: #218838;
+           font-weight: bold;
+       }
+       
+       .checkbox-container {
+           display: flex;
+           align-items: center;
+           margin-top: 10px;
+       }
+       
+       .checkbox-container input[type="checkbox"] {
+           margin-right: 10px;
+           accent-color: #28a745;
+       }
+       
+       .checkbox-container label {
+           color: #e0e0e0;
+           font-size: 14px;
+           cursor: pointer;
+       }
+       
+       .error-message {
+           color: #ff4d4d;
+           font-size: 12px;
+           margin-bottom: 8px;
+       }
+       
+       .error {
+       color: red;
+       font-size: 0.85em;
+       margin-top: 2px;
+   }
+   
+       table {
+           margin-top: 20px;
+           width: 100%; 
+           max-width: 100%; 
+           border-collapse: collapse;
+           font-size: 14px;
+           background-color: #2b2b2b;
+           border-radius: 5px;
+           box-sizing: border-box; 
+       }
+       
+       table, th, td {
+           border: 1px solid #444;
+       }
+       
+       th, td {
+           padding: 8px;
+           text-align: left;
+           color: #ddd;
+           word-wrap: break-word; 
+       }
+       
+       th {
+           background-color: #333;
+           font-weight: bold;
+       }
+       
+       
+       table input[type="text"] {
+           width: 100%; 
+           padding: 6px;
+           border: 2px solid #333;
+           background-color: #2b2b2b;
+           color: #e0e0e0;
+           font-size: 14px;
+           box-sizing: border-box; 
+           border-radius: 3px;
+       }
+       
+       table input[type="text"]:focus {
+           outline: none;
+           border-color: #28a745;
+       }
+       
+       
+       button.update-btn,
+       button.delete-btn {
+           padding: 5px 8px;
+           font-size: 13px;
+           border: none;
+           border-radius: 3px;
+           cursor: pointer;
+           width: 60px;
+           transition: background-color 0.4s ease;
+           margin-bottom: 5px;
+       }
+           
+       button.delete-btn {
+           background-color: #ff4d4d;
+           color: #e0e0e0;
+       }
+       
+       button.delete-btn:hover {
+           background-color: #ff3333;
+           font-weight: bold;
+   
+       }
+
+        .login-btn {
+        padding: 8px 15px;  
+        font-size: 14px;     
+        border: none;
+        background-color: #007bff;
+        color: #e0e0e0;
+        border-radius: 5px;
+        width: auto;        
+        margin-top: 15px;
+        cursor: pointer;
+        transition: background-color 0.4s ease;
+        align-self: right;  /* Align button to the right */
+        }
+
+        .login-btn:hover {
+        background-color: #0056b3;
+        font-weight: bold;
+        }
+       </style>  
+</head>
+<body>
+
+    <div class="container">
+        <form id="signupForm">
+            <h1>Sign Up</h1>
+            <p>Name</p>
+            <input id="name" class="password-manager" type="text" placeholder="Enter your name" required>
+            <div id="nameError" class="error-message"></div>
+
+            <p>Email</p>
+            <input id="email" class="password-manager" type="email" placeholder="email@example.com" required>
+            <div id="emailError" class="error-message"></div>
+
+            <p>Password</p>
+            <input id="password" class="password-manager" type="password" placeholder="Enter Password" required>
+            <div class="checkbox-container">
+                <input type="checkbox" id="show-password" onclick="togglePasswordVisibility()">
+                <label for="show-password">Show Password</label>
+            </div>
+            <div id="passwordError" class="error-message"></div>
+
+            <input id="confirmPassword" class="password-manager" type="password" placeholder="Confirm Password" required>
+            
+            <div class="checkbox-container">
+                <input type="checkbox" id="show-password" onclick="togglePasswordVisibility2()">
+                <label for="show-password">Show Password</label>
+            </div>
+            <div id="passwordError2" class="error-message"></div>
+
+
+            <button id="signupBtn" class="password-managerbtn2" type="submit">Sign Up</button>
+        </form>
+        <a href="http://127.0.0.1:5000/login">
+            <button class="login-btn">Login</button>
+        </a>
+    </div>
+
+    <script>
+        function togglePasswordVisibility() {
+            var passwordField = document.getElementById('password');
+            var passwordType = passwordField.type;
+            passwordField.type = passwordType === 'password' ? 'text' : 'password';
+        }
+
+        function togglePasswordVisibility2() {
+            var passwordField = document.getElementById('confirmPassword');
+            var passwordType = passwordField.type;
+            passwordField.type = passwordType === 'password' ? 'text' : 'password';
+        }
+
+
+        document.getElementById('signupForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var name = document.getElementById('name').value.trim();
+            var email = document.getElementById('email').value.trim();
+            var password = document.getElementById('password').value.trim();
+            var confirmPassword = document.getElementById('confirmPassword').value.trim();
+
+            var isValid = true;
+
+            // Clear previous error messages
+            document.getElementById('nameError').innerText = '';
+            document.getElementById('emailError').innerText = '';
+            document.getElementById('passwordError').innerText = '';
+
+            // Validate Name
+            if (name === '') {
+                document.getElementById('nameError').innerText = 'Name is required.';
+                isValid = false;
+            }
+
+            // Validate Email
+            var emailPattern = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+            if (!emailPattern.test(email)) {
+                document.getElementById('emailError').innerText = 'Please enter a valid email address.';
+                isValid = false;
+            }
+
+            // Validate Password
+            var passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!#$%&()*+])[A-Za-z\d!#$%&()*+]{8,}$/;
+            if (!passwordPattern.test(password)) {
+                document.getElementById('passwordError').innerText = 'Password must be at least 8 characters long, contain a digit, an uppercase letter, a lowercase letter, and a special character.';
+                isValid = false;
+                
+            }
+
+            // Check if passwords match
+            if (password != confirmPassword) {
+                document.getElementById('passwordError2').innerText = 'Passwords do not match.';
+                isValid = false;
+            }
+
+
+            if (isValid) {
+                // Proceed to send data to backend API
+                var formData = new FormData();
+                formData.append('name', name);
+                formData.append('email', email);
+                formData.append('password', password);
+
+                fetch('/signup', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
+                        alert(data.message); // Successfully signed up
+                        window.location.href = "/";
+                    } else if (data.error) {
+                        alert(data.error); // Show error message from backend
+                    }
+                })
+                .catch(error => {
+                    alert('Error occurred while signing up.');
+                });
+            }
+        });
+    </script>
+  
+</body>
+</html>
