@@ -11,7 +11,7 @@ This project is a simple password manager that allows you to securely manage pas
 * **Login**: Secure login with email and password.
 * **Password Management**: Add, update, delete, and view passwords for different websites.
 * **Password Generation**: Generate secure passwords with one click.
-* **Responsive UI**: The application adjusts to various screen sizes for better usability.
+* **Good UI**: Simplistic UI.
 
 ## Technologies Used
 
@@ -33,40 +33,15 @@ Ensure you have the following installed:
   pip install flask
   ```
 
-### Installation Steps
-
-1. Clone or download the repository.
-2. Optionally, set up a virtual environment:
-
-   ```bash
-   python3 -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
-3. Install dependencies listed in `requirements.txt` (if applicable):
-
-   ```bash
-   pip install -r requirements.txt
-   ```
-4. Run the Flask server:
-
-   ```bash
-   flask run
-   ```
-
-   The server will run on `http://127.0.0.1:5000`.
 
 ### File Structure
 
 ```plaintext
-├── static/
-│   └── styles/
-│       └── index.css       # Custom CSS styles for the project
 ├── templates/
+│   ├── index.html          # Index pages (Password Management Page)
 │   ├── login.html          # Login page (for user login)
 │   └── signup.html         # Sign-up page (for user registration)
-├── app.py                  # Flask backend for handling logic (not included, needs to be created)
-├── requirements.txt        # Python dependencies for the project (if applicable)
-└── README.md               # Project documentation
+└──  app.py                  # Flask backend for handling logic (not included, needs to be created)
 ```
 
 ### Usage
@@ -109,14 +84,4 @@ The backend should support the following routes:
 6. **`/update_password/{id}`**: Updates an existing password.
 7. **`/delete_password/{id}`**: Deletes a stored password.
 8. **`/generate_password`**: Generates a secure random password.
-
-### How It Works
-
-* **Frontend**: Uses HTML, CSS, and JavaScript to create an interactive user interface. Form data is sent to the Flask backend via AJAX requests.
-* **Backend**: Handles the logic for user registration, authentication, and password management (creating, retrieving, updating, deleting passwords).
-
-### Security Notes
-
-* Passwords should be stored securely on the backend, ideally using hashed passwords with salt (e.g., using `bcrypt` or `hashlib`).
-* It's recommended to implement HTTPS for secure communication between the frontend and backend in production.
 
