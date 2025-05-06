@@ -1,4 +1,4 @@
-•	Frontend: HTML & CSS, maybe JS too 
+•	Frontend: HTML & CSS, and some JS too 
 
 •	Backend: Python flask
 
